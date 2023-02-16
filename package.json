@@ -7,7 +7,7 @@
   "license": "ISC",
   "dependencies": {
     "@glif/filecoin-address": "^2.0.20",
-    "@web3yak/web3domain": "^1.0.5",
+    "@web3yak/web3domain": "^1.0.6",
     "dotenv": "^16.0.3"
   }
 }

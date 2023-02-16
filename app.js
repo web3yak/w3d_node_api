@@ -61,8 +61,8 @@ app.get("/api", (req, res) => {
       let fil = fa.validateAddressString(query.address); //Only check t4 address
       if (fil) {
         //This is FIL address and convert it ot ETH
-        const convert_t4=fa.ethAddressFromDelegated(query.address).toString();
-       addr_to_domain(convert_t4, res)
+        const convert_t4 = fa.ethAddressFromDelegated(query.address).toString();
+        addr_to_domain(convert_t4, res)
 
       }
       else {
@@ -74,6 +74,10 @@ app.get("/api", (req, res) => {
       addr_to_domain(query.address, res)
     }
 
+  }
+  else if ((typeof query.name !== 'undefined') && (typeof query.type !== 'undefined')) {
+
+    domain_to_ipfs(query.name, res);
   }
   else {
     if ((typeof query.name !== 'undefined')) {
@@ -115,16 +119,16 @@ function domain_to_addr(name, currency, res) {
 
 function addr_to_domain(address, res) {
 
- const convert_t4=fa.delegatedFromEthAddress(address).toString();
+  const convert_t4 = fa.delegatedFromEthAddress(address).toString();
 
-  resolve.getDomain(address,"W3D").then(x => {
+  resolve.getDomain(address, "W3D").then(x => {
     //EVM address to Web3Domain Name
     if (x == null || x == '') {
 
-    addr_to_domain_ens(address, res);
+      addr_to_domain_ens(address, res);
     }
     else {
-      res.json({ domain: x, code: 200, fvm: convert_t4, eth:address })
+      res.json({ domain: x, code: 200, fvm: convert_t4, eth: address })
     }
   }).catch(console.error);
 }
@@ -132,15 +136,28 @@ function addr_to_domain(address, res) {
 //Address to domain for ENS
 function addr_to_domain_ens(address, res) {
 
-  const convert_t4=fa.delegatedFromEthAddress(address).toString();
- 
-   resolve.getDomain(address,"ENS").then(x => {
+  const convert_t4 = fa.delegatedFromEthAddress(address).toString();
+
+  resolve.getDomain(address, "ENS").then(x => {
     //ENS address to ETH Domain
-     if (x == null) {
-       res.json({ domain: x, code: 404 })
-     }
-     else {
-       res.json({ domain: x, code: 200, fvm: convert_t4, eth:address })
-     }
-   }).catch(console.error);
- }
+    if (x == null) {
+      res.json({ domain: x, code: 404 })
+    }
+    else {
+      res.json({ domain: x, code: 200, fvm: convert_t4, eth: address })
+    }
+  }).catch(console.error);
+}
+
+//Find IPFS from domain
+function domain_to_ipfs(name, res) {
+
+  resolve.getWeb(name).then(x => {
+    if (x == null) {
+      res.json({ ipfs: x, code: 404 })
+    }
+    else {
+      res.json({ ipfs: x, code: 200 })
+    }
+  }).catch(console.error);
+}
