@@ -1,13 +1,13 @@
 {
   "name": "nodejs",
-  "version": "1.0.0",
+  "version": "1.0.7",
   "description": "A Web3Domain Resolve",
   "main": "app.js",
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@glif/filecoin-address": "^2.0.20",
-    "@web3yak/web3domain": "^1.0.6",
+    "@web3yak/web3domain": "^1.0.7",
     "dotenv": "^16.0.3"
   }
 }

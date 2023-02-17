@@ -13,29 +13,6 @@ const settings = {
 
 let resolve = new w3d.Web3Domain(settings);
 
-/*
-const test1 = "0x8d714b10b719c65b878f2ed1436a964e11fa3271";
-const test2 = "t410frvyuwefxdhdfxb4pf3iug2uwjyi7umtrjdcf2ka";
-const test3 = "t410frvyuwefxdhdfxb4pf3xxxxxxxxxxumtrjdcf2ka";
-const test4 = "0x8d714b10b719c65b878f2ed1436a964e11fa327111111";
-
-const f4ContractAddress = fa.newDelegatedEthAddress(test1).toString();
-const f4ActorAddress = fa.newActorAddress(test1).toString();
-const t4 = fa.delegatedFromEthAddress(test1).toString();
-const eth = fa.ethAddressFromDelegated(test2).toString();
-let boo = fa.validateAddressString(test2); //Only check t4 address
-*/
-
-
-//console.log(f4ContractAddress);
-//console.log(f4ActorAddress);
-//console.log(t4);
-//console.log(eth);
-//console.log(boo);
-
-
-
-
 var intro = "This is live API script which you can host on your node webserver application to get wallet address from the Web3 Domain Name.<hr> Eg. <code>http://....../api/?name=brad.eth&#38;currency=ETH</code> ";
 
 app.get('/', (req, res) => {
@@ -77,7 +54,15 @@ app.get("/api", (req, res) => {
   }
   else if ((typeof query.name !== 'undefined') && (typeof query.type !== 'undefined')) {
 
+    if(query.type == 'uri')
+    {
+      domain_to_uri(query.name, res)
+    }
+    else
+    {
+
     domain_to_ipfs(query.name, res);
+    }
   }
   else {
     if ((typeof query.name !== 'undefined')) {
@@ -158,6 +143,19 @@ function domain_to_ipfs(name, res) {
     }
     else {
       res.json({ ipfs: x, code: 200 })
+    }
+  }).catch(console.error);
+}
+
+//Find URI from domain
+function domain_to_uri(name, res) {
+
+  resolve.w3d_tokenURI(name).then(x => {
+    if (x == null) {
+      res.json({ tokenURI: x, code: 404 })
+    }
+    else {
+      res.json({ tokenURI: x, code: 200 })
     }
   }).catch(console.error);
 }
