@@ -5,10 +5,12 @@ var _ethers = require("ethers");
 var w3d = require("@web3yak/web3domain");
 require('dotenv').config() //Remove this line if no environment variable is used
 
+//nodemon app.js
 
 const settings = {
   matic_rpc_url: process.env.MATIC_RPC,
-  eth_rpc_url: process.env.ETH_RPC
+  eth_rpc_url: process.env.ETH_RPC,
+  fvm_rpc_url: process.env.FVM_RPC
 };
 
 let resolve = new w3d.Web3Domain(settings);
@@ -39,7 +41,8 @@ app.get("/api", (req, res) => {
       if (fil) {
         //This is FIL address and convert it ot ETH
         const convert_t4 = fa.ethAddressFromDelegated(query.address).toString();
-        addr_to_domain(convert_t4, res)
+
+       addr_to_domain(convert_t4, res)
 
       }
       else {
@@ -104,7 +107,20 @@ function domain_to_addr(name, currency, res) {
 
 function addr_to_domain(address, res) {
 
-  const convert_t4 = fa.delegatedFromEthAddress(address).toString();
+ // const convert_t4 = fa.delegatedFromEthAddress(address).toString();
+
+  const convert_f4 = fa.newDelegatedEthAddress(address).toString();
+  console.log(convert_f4);
+
+  //convert to f2
+ // const convert_ac = fa.newActorAddress(address).toString();
+//  console.log(convert_ac);
+
+  //const convert_bb = fa.newSecp256k1Address(convert_f4).toString();
+  //console.log(convert_bb);
+
+  //const convert_cc = fa.newBLSAddress(address).toString();
+  //console.log(convert_cc);
 
   resolve.getDomain(address, "W3D").then(x => {
     //EVM address to Web3Domain Name
@@ -113,7 +129,7 @@ function addr_to_domain(address, res) {
       addr_to_domain_ens(address, res);
     }
     else {
-      res.json({ domain: x, code: 200, fvm: convert_t4, eth: address })
+      res.json({ domain: x, code: 200, fvm: convert_f4, eth: address })
     }
   }).catch(console.error);
 }
