@@ -1,6 +1,6 @@
 {
   "name": "nodejs",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "A YAK ID Resolve",
   "main": "app.js",
   "author": "",
