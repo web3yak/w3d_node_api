@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const fa = require("@glif/filecoin-address");
 var _ethers = require("ethers");
-var w3d = require("@web3yak/web3domain");
+var ODudeName = require("@odude/oduderesolve");
 require('dotenv').config() //Remove this line if no environment variable is used
 
 //nodemon app.js
@@ -10,12 +10,15 @@ require('dotenv').config() //Remove this line if no environment variable is used
 const settings = {
   matic_rpc_url: process.env.MATIC_RPC,
   eth_rpc_url: process.env.ETH_RPC,
-  fvm_rpc_url: process.env.FVM_RPC
+  fvm_rpc_url: process.env.FVM_RPC,
+  wallet_pvt_key: process.env.PVT_KEY
 };
 
-let resolve = new w3d.Web3Domain(settings);
+console.log(settings);
 
-var intro = "This is live API script which you can host on your node webserver application to get wallet address from the Web3 Domain Name.<hr> Eg. <code>http://....../api/?name=brad.eth&#38;currency=ETH</code> ";
+const resolve = new ODudeName(settings);
+
+var intro = "This is live API script which you can host on your node webserver application to get wallet address from the Web3 Domain Name.<hr> Eg. <code>http://....../api/?name=brad.eth&#38;currency=ETH</code> | <code>type=uri</code>";
 
 app.get('/', (req, res) => {
   res.send(intro);

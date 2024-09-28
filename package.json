@@ -1,13 +1,17 @@
 {
-  "name": "nodejs",
-  "version": "1.0.10",
-  "description": "A YAK ID Resolve",
+  "name": "web3-domain-api",
+  "version": "1.0.1",
+  "description": "A Node.js application for interacting with blockchain functionalities using Web3 Domain.",
   "main": "app.js",
-  "author": "",
-  "license": "ISC",
+  "scripts": {
+    "start": "node app.js",
+    "build": "echo 'No build step required'"
+  },
   "dependencies": {
     "@glif/filecoin-address": "^2.0.43",
-    "@web3yak/web3domain": "^1.0.10",
-    "dotenv": "^16.0.3"
+    "@odude/oduderesolve": "^1.0.0",
+    "dotenv": "^16.0.3",
+    "ethers": "^5.0.0",
+    "express": "^4.17.2"
   }
 }
